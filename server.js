@@ -53,15 +53,22 @@ app.get('/home',(req,res) => {
             res.session.passwordwrong = false;
             res.render('login',{msg:"Invalid credentials"});
         }else{
-            res.render('login');
+            res.redirect('/login');
         }
         
     }
 })
 
-app.get('/logout',(req,res) => {
-    req.session.destroy();
-    res.render('login',{msg: "Logged Out"});
-})
 
+app.get('/logout',(req,res)=>{
+    req.session.destroy(function(error){
+        if(error){
+            console.log(error);
+            res.render('login',{msg: "Logged Out"})
+            
+        }else{
+            res.redirect('/');
+        }
+    })
+})
 app.listen(3000, () => console.log('server running or port 3000'));
