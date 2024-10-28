@@ -7,7 +7,7 @@ app.use(express.static('public'));
 app.set('view engine','hbs');
 
 app.use(express.urlencoded({extended:true}));
-app.use(express.json());
+
 
 const username = "admin";
 const password = "admin123";
@@ -23,14 +23,14 @@ app.use(nocache())
 app.get('/', (req,res) => {
     if(req.session.user){
         res.render('home')
-    }else{
-        if(req.session.passwordwrong){
+        console.log("entred login 1")
+    }else if(req.session.passwordwrong){
             res.render('login',{msg:"Invalid credentials"});
             req.session.passwordwrong = false;
         }else{
             res.render('login');
+            console.log("entered login")
         }
-    }
 });
 
 app.post('/verify' ,(req,res) => {
@@ -53,7 +53,7 @@ app.get('/home',(req,res) => {
             res.session.passwordwrong = false;
             res.render('login',{msg:"Invalid credentials"});
         }else{
-            res.redirect('/login');
+            res.redirect('/');
         }
         
     }
